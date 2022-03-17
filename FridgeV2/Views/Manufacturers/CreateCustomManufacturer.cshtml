@@ -1,0 +1,25 @@
+﻿@model FridgeV2.Models.Manufacturer
+@{
+    ViewBag.Title = "Добавление производителя";
+}
+<a><b>Ваш производитель появится после одобрения модерации</b></a>
+<form asp-action="Create" asp-controller="Manufacturers">
+    <div class="form-group">
+        <label asp-for="Name" class="form-label">Название производителя:</label>
+        <input type="text" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LegalAddress" class="form-label">Юр.Адресс:</label>
+        <input type="text" asp-for="LegalAddress" class="form-control" />
+        <span asp-validation-for="LegalAddress" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhysicalAddress" class="form-label">Физ.Адрес:</label>
+        <input type="text" asp-for="PhysicalAddress" class="form-control" />
+        <span asp-validation-for="PhysicalAddress" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-outline-success" />
+    </div>
+</form>

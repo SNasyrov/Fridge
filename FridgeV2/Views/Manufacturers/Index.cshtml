@@ -1,0 +1,30 @@
+﻿@model IEnumerable<FridgeV2.Models.Manufacturer>
+@{
+    ViewBag.Title = "Производитель";
+}
+<a asp-action="Create">Добавить производителя</a>
+
+<table class="table">
+    <tr>
+        <td>Производитель:</td>
+
+        <td>Юр.Адресс:</td>
+
+        <td>Физ.Адресс:</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => item.Name)</td>
+
+            <td>@Html.DisplayFor(model => item.LegalAddress)</td>
+
+            <td>@Html.DisplayFor(model => item.PhysicalAddress)</td>
+
+            <td>
+                <a asp-action="Delete" asp-controller="Manufacturers" asp-route-id="@item.Id" class="btn btn-outline-danger">Удалить</a>
+            </td>
+        </tr>
+
+    }
+</table>

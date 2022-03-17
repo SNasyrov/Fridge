@@ -1,0 +1,22 @@
+﻿@model IEnumerable<FridgeV2.Models.Product>
+@{
+    ViewBag.Title = "Добавить любимый продукт";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        @foreach (var item in Model)
+        {
+            @item.Name
+
+            @item.Manufacturer.Name
+        }
+    </dl>
+    <div>
+        <form asp-controller="FavoriteProducts" asp-action="Index" method="post">
+            <div class="form-group">
+                <input type="submit" class="btn btn btn-default" value="Утвердить" />
+            </div>
+        </form>
+    </div>
+</div>

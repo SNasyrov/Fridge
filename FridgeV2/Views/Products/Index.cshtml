@@ -1,0 +1,57 @@
+﻿@model IEnumerable<FridgeV2.Models.Product>
+@{
+    ViewBag.Title = "Продукты";
+}
+<a asp-action="Create">Добавить продукт</a>
+<table class="table">
+    <tr>
+        <td>Название продукта:</td>
+
+        <td>Статус подтверждения:</td>
+
+        <td>Производитель: </td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => item.Name)</td>
+
+            <td>
+                @if (item.IsConfirmed == true)
+                {
+                    <span>Подтвержден</span>
+                }
+                else
+                {
+                    <span>Не подтвержден</span>
+                }
+            </td>
+
+            <td>@Html.DisplayFor(model => item.Manufacturer.Name)</td>
+
+            <td>
+                <a asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id" class="btn btn-outline-info">Редактировать</a>
+            </td>
+
+            <td>
+                @if (item.IsConfirmed == false)
+                {
+                    <form asp-action="Confirm" asp-controller="Products" asp-route-id="@item.Id" method="post">
+                        <button type="submit" class="btn btn-outline-success">
+                            Утвердить
+                        </button>
+                    </form>
+                }
+            </td>
+
+            <td>
+                <form asp-action="Delete" asp-controller="Products" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-outline-danger">
+                        Отказать
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+    }
+</table>

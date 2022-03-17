@@ -1,0 +1,29 @@
+﻿@model IEnumerable<FridgeV2.Models.Category>
+@{
+    ViewBag.Title = "Категории";
+}
+<a asp-action="Create">Добавить категорию</a>
+
+<table class="table">
+    <tr>
+        <td>Название продукта:</td>
+
+        <td>Группа продукта:</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => item.Name)</td>
+
+            <td>@Html.DisplayFor(model => item.ParentСategory.Name)</td>
+
+            <td>
+                <form asp-action="Delete" asp-controller="Categories" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-outline-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

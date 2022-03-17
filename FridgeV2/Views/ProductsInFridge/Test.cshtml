@@ -1,0 +1,22 @@
+﻿@using FridgeV2.Models
+
+@model IEnumerable<ProductInFridge>
+<h1>Список пользователей</h1>
+<table class="table">
+    <tr>
+        <th>
+            <a asp-action="Test" asp-route-sortOrder="@ViewBag.NameSort">
+                Имя
+            </a>
+        </th>
+        <th>
+            <a asp-action="Test" asp-route-sortOrder="@ViewBag.AgeSort">
+                Возраст
+            </a>
+        </th>
+    </tr>
+    @foreach (ProductInFridge u in Model)
+    {
+        <tr><td>@u.Product.Name</td><td>@u.ExpirationDate</td></tr>
+    }
+</table>

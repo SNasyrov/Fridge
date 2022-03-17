@@ -1,0 +1,38 @@
+﻿@model FridgeV2.Models.ProductInFridge
+@{
+    ViewBag.Title = "Информация о продукте";
+}
+<h2>Продукт </h2>
+<div>
+    <dl class="dl-horizontal">
+        <dt>Продукт :</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+
+        <dt>Годен до:</dt>
+
+        <dd>@Model.ExpirationDate.ToString("d")</dd>
+
+        <dt>Дата покупки:</dt>
+
+        <dd>@Model.PurchaseDate.ToString("d")</dd>
+
+        <dt>Испортиться через:</dt>
+
+        @if (@Model.ExpirationDate.Subtract(DateTime.Today).TotalDays >= 0)
+        {
+            <dd>@Model.ExpirationDate.Subtract(DateTime.Today).TotalDays дней</dd>
+        }
+
+        @if (@Model.ExpirationDate.Subtract(DateTime.Today).TotalDays < 0)
+        {
+            <dd><font color="red">Продукт испортился</font></dd>
+        }
+
+        <dt>Место покупки:</dt>
+
+        <dd>@Model.Shop.Name (@Model.Shop.Address)</dd>
+
+    </dl>
+</div>

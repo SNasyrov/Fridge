@@ -1,0 +1,32 @@
+﻿@model IEnumerable<FridgeV2.Models.ShoppingListItem>
+@{
+    ViewBag.Title = "Список покупок";
+}
+<a asp-action="Create">Добавить продукт в список покупок</a>
+
+<table class="table">
+    <tr>
+        <td>Продукт:</td>
+
+        <td>@Html.DisplayNameFor(model => model.AmountOfProduct):</td>
+
+        <td></td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Product.Name</td>
+
+            <td>@item.AmountOfProduct</td>
+
+            <td>
+                <a asp-action="Delete" asp-controller="ShoppingListItems" asp-route-id="@item.Id">Удалить</a>
+            </td>
+
+            <td>
+                <a asp-action="Create" asp-controller="ProductsInFridge" asp-route-productId="@item.ProductId" asp-route-returnUrl="@Url.Action("Index", "ShoppingListItems")">Куплено</a>
+            </td>
+
+        </tr>
+    }
+</table>

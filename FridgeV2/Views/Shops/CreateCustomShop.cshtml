@@ -1,0 +1,18 @@
+﻿@model FridgeV2.Models.Shop
+@{
+    ViewBag.Title = "Добавление магазина";
+}
+<a><b>Ваш магазин появится после одобрения модерации</b></a>
+<form asp-action="CreateCustomShop" asp-controller="Shops">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Название:</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="control-label">Адрес:</label>
+        <input type="text" asp-for="Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-outline-success" />
+    </div>
+</form>

@@ -1,0 +1,26 @@
+﻿@model FridgeV2.Models.ProductInFridge
+@{
+    ViewBag.Title = "Удаление продукта";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>Продукт:</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+
+        <dt>Срок годности:</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+    </dl>
+
+    <div>
+        <form asp-controller="ProductsInFridge" asp-action="Delete" method="post">
+            <div class="form-group">
+                <input type="submit" class="btn btn-outline-danger" value="Удалить" />
+            </div>
+        </form>
+    </div>
+</div>

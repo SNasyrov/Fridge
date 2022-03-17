@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model IEnumerable<FridgeV2.Models.User>
+
+@{
+    ViewBag.Title = "Личный кабинет";
+}
+
+
+<html>
+<head>
+    <style>
+        #maintest {
+            background-color: #eee;
+            height: 200px;
+            margin-left: 120px;
+        }
+
+        #menu {
+            background-color: #ddd;
+            float: left;
+            width: 220px;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <ul>
+            <br>
+            <li>
+                <a class="btn btn-light" href="#">Любимые рецепты</a>
+            </li>
+            <br>
+            <li>
+                <a class="btn btn-light" asp-controller="FavoriteProducts" asp-action="Index">Любимые продукты</a>
+            </li>
+            <br>
+
+            <li>
+                <a class="btn btn-light" asp-controller="PersonalAccounts" asp-action="AccountSetup">Настройки аккаунта</a>
+            </li>
+            <br>
+            <li>
+                <a class="btn btn-light" asp-controller="Account" asp-action="Logout">Выход</a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="maintest">
+        <h3> Основная информация об аккаунте</h3>
+
+        <h5>Имя : </h5>
+
+        <p>@((await UserManager.GetUserAsync(User))?.FirstName)</p>
+
+        <h5>Электронная почта : </h5>
+
+        <p>@((await UserManager.GetUserAsync(User))?.Email)</p>
+    </div>
+</body>
+</html>

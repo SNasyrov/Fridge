@@ -1,0 +1,27 @@
+﻿@model FridgeV2.Models.Product
+@{
+    ViewBag.Title = "Редактирование продукта";
+}
+<form asp-action="Edit" asp-controller="Products">
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Название продукта:</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryId">Группа продукта:</label>
+        <select class="form-control" asp-for="CategoryId" asp-items="ViewBag.categories">
+            <option>Пусто</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ManufacturerId">Производитель:</label>
+        <select class="form-control" asp-for="ManufacturerId" asp-items="ViewBag.manufacturer">
+            <option>Пусто</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-outline-success" />
+    </div>
+</form>
