@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,27 @@ namespace FridgeV2.Controllers
         public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
         {
             string currentUserId = UserManager.GetUserId(User);
+
+            var date = DateTime.Now;
+
+            List<string> ExpiredProduct = new List<string>();
+
+            List<ProductInFridge> products = await db.ProductsInFridge
+                                                             .Include(p => p.Product)
+                                                             .Where(p => p.UserId == currentUserId)
+                                                             .ToListAsync();
+            foreach (var p in products)
+            {
+                if (p.ExpirationDate.Subtract(date).TotalDays <= 0)
+                {
+                    ExpiredProduct.Add(p.Product.Name);
+                }
+                else
+                {
+                    ViewBag.ExpiredProduct = "Уведомлений нет";
+                }
+            }
+            ViewBag.ExpiredProduct = ExpiredProduct;
 
             IQueryable<ProductInFridge> productInFridges = db.ProductsInFridge.Include(x => x.Product);
 

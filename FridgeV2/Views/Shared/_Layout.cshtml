@@ -53,18 +53,17 @@
                                     <img src="~/Images/Icons/NotificationBell.png" alt="Уведомления" class="nav-link dropdown-toggle text-white" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <div>
-                                            <div>
-                                               <!--@if (Model != null)
+                                            @if (ViewBag.ExpiredProduct != null)
+                                            {
+                                                @foreach(var item in ViewBag.ExpiredProduct)
                                                 {
-                                                    @foreach (var item in Model)
-                                                    {
-                                                        @if (item.ExpirationDate.Subtract(DateTime.Today).TotalDays < 0)
-                                                        {
-                                                            <p> @item.Product.Name испортился!</p>
-                                                        }
-                                                    }
-                                                }-->
-                                            </div>
+                                                    <p>@item испортилось</p>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>Уведомлений нет</p>
+                                            }
                                         </div>
                                         <div class="dropdown-divider"></div>
                                     </div>
