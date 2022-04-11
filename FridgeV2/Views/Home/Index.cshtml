@@ -1,4 +1,77 @@
 ﻿@{
     ViewBag.Title = "Главная";
 }
-<h2>Главная страница</h2>
+
+<head>
+    <link rel="stylesheet" href="~/css~/css/test.scss" />
+    <style>
+
+        .main-box {
+            display: flex;
+            justify-content:space-between;
+        }
+        .first-text-box{
+            position: fixed;
+            width: 344px;
+            height: 225px;
+            left: 350px;
+            top: 140px;
+
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 900;
+            font-size: 49px;
+            line-height: 57px;
+        }
+        .second-text-box{
+            position: fixed;
+            width: 400px;
+            height: 157px;
+            left: 350px;
+            top: 375px;
+
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 26px;
+            line-height: 30px;
+        }
+
+        .image-box{
+            position: fixed;
+            width: 500px;
+            height:;
+            z-index:3;
+            right:300px;
+        }
+
+        .circle{
+            position: fixed;
+            width:760px;
+            border-radius:450px;
+            border: 50px solid green;
+            height:760px;
+            right:210px;
+            top:400px;
+            z-index:2;
+        }
+    </style>
+</head>
+<body>
+    <div class="col">
+    <div class='text-box'>
+        <h1 class='first-text-box'>Ваш холодильник прямо у вас на устройстве</h1>
+    </div>
+    <div class='text-box'>
+        <p class='second-text-box'>
+            Бывает такое, что в магазине вы не можете вспомнить какие продукты вам нужно купить. Наш сайт помогает исправить эту проблему!
+            Вы можете посмотреть, что у вас есть в холодильнике, узнать срок годности и составить свой список покупок.
+        </p>
+    </div>
+</div>
+<div class="col">
+    <img class="image-box" style="" src="/Images/fridge.png" />
+
+    <div class="circle"></div>
+</div>
+</body>

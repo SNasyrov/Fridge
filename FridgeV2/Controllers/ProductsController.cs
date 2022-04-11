@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -111,15 +112,18 @@ namespace FridgeV2.Controllers
             {
                 Product product = await db.Products.FirstOrDefaultAsync(p => p.Id == id);
                 if (product != null)
+                    TempData["Id"] = product.Id;
                     return View(product);
             }
             return NotFound();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmToAddFavoriteProduct(int? id)
+        public async Task<IActionResult> ConfirmToAddFavoriteProduct()
         {
-            if (id != null)
+            int id = Convert.ToInt32(TempData["Id"]);
+
+            if (id != 0)
             {
                 Product Product = await db.Products.FirstOrDefaultAsync(p => p.Id == id);
                 if (Product != null)
@@ -127,7 +131,7 @@ namespace FridgeV2.Controllers
                     Product.LikeTheProduct = true;
                     db.Products.Update(Product);
                     await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "FavoriteProducts");
                 }
             }
             return NotFound();

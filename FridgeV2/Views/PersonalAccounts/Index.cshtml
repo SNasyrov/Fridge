@@ -10,20 +10,28 @@
 <html>
 <head>
     <style>
-        #maintest {
-            background-color: #eee;
-            height: 200px;
-            margin-left: 120px;
-        }
 
         #menu {
-            background-color: #ddd;
             float: left;
             width: 220px;
         }
 
         ul {
             list-style-type: none;
+        }
+
+        .generalInformation{
+            position: fixed;
+            left:700px;
+            top:100px;
+            background-color:#f7f1e3;
+            width:650px;
+            height:200px;
+            box-shadow: 10px 10px 10px rgba(0,0,0,0.19);
+        }
+
+        .generalInformation-text{
+            padding-left:15px;
         }
     </style>
 </head>
@@ -32,25 +40,21 @@
         <ul>
             <br>
             <li>
-                <a class="btn btn-light" href="#">Любимые рецепты</a>
-            </li>
-            <br>
-            <li>
-                <a class="btn btn-light" asp-controller="FavoriteProducts" asp-action="Index">Любимые продукты</a>
+                <a class="btn btn-secondary" asp-controller="FavoriteProducts" asp-action="Index">Любимые продукты</a>
             </li>
             <br>
 
             <li>
-                <a class="btn btn-light" asp-controller="PersonalAccounts" asp-action="AccountSetup">Настройки аккаунта</a>
+                <a class="btn btn-secondary" asp-controller="PersonalAccounts" asp-action="AccountSetup">Настройки аккаунта</a>
             </li>
             <br>
             <li>
-                <a class="btn btn-light" asp-controller="Account" asp-action="Logout">Выход</a>
+                <a class="btn btn-secondary" asp-controller="Account" asp-action="Logout">Выход</a>
             </li>
         </ul>
     </div>
 
-    <div id="maintest">
+    <div class="generalInformation generalInformation-text">
         <h3> Основная информация об аккаунте</h3>
 
         <h5>Имя : </h5>

@@ -14,16 +14,20 @@
         }
 
         #sidebartest2 {
-            background-color: #ddd;
             float: left;
             width: 200px;
             height: 200px;
         }
 
         #maintest2 {
-            background-color: #eee;
-            height: 200px;
+            background-color: #f7f1e3;
+            height: 70px;
             margin-left: 220px; /* 150px (ширина сайдбара) + 10px + 10px (2 отступа) */
+            box-shadow: 10px 10px 10px rgba(0,0,0,0.19);
+        }
+
+        .maintest-text{
+            padding-left:25px;
         }
 
         #formtest1 {
@@ -45,8 +49,9 @@
         }
 
         #tabletest {
-            border: 1px solid white;
-            background-color: #D3D3D3;
+            margin-top:35px;
+            background-color: #f7f1e3;
+            box-shadow: 10px 10px 10px rgba(0,0,0,0.19);
         }
     </style>
 </head>
@@ -63,9 +68,12 @@
         </form>
     </div>
     <div id="maintest2">
-        <h4>Ваш онлайн холодильник:</h4>
+        <div class="maintest-text">
+            <h4>Ваш онлайн холодильник:</h4>
         <span> </span>
-        <h6>Сортировать по: <a asp-controller="ProductsInFridge" asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">Названию</a><span> | </span><a asp-action="Index" asp-route-sortOrder="@ViewBag.AgeSort">Сроку годности</a></h6>
+        <h6>Сортировать по: <a asp-controller="ProductsInFridge" asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">Названию</a><span> | </span>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.AgeSort">Сроку годности</a></h6>
+        </div>
         <table id="tabletest" class="table">
             <tr>
                 <td><h6>Продукт:</h6></td>
@@ -147,7 +155,7 @@
                         <td>
                             <a asp-action="Edit" asp-controller="ProductsInFridge" asp-route-id="@item.Id"><img src="~/Images/Icons/EditProduct.png" alt="Уведомления" role="button" /></a>
 
-                            <a asp-controller="Products" asp-action="ConfirmToAddFavoriteProduct" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
+                            <a asp-controller="Products" asp-action="ConfirmToAddFavoriteProductConfirm" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
 
                             <a asp-action="Create" asp-controller="ShoppingListItems" asp-route-productId="@item.ProductId" asp-route-returnUrl="@Url.Action("Index", "ProductsInFridge")"><img src="~/Images/Icons/AddShoppingList.png" alt="Добавить в список покупок" role="button" /></a>
 
@@ -159,7 +167,7 @@
                         <td>
                             <a asp-action="Edit" asp-controller="ProductsInFridge" asp-route-id="@item.Id"><img src="~/Images/Icons/EditProduct.png" alt="Изменить" role="button" /></a>
 
-                            <a asp-controller="Products" asp-action="ConfirmToAddFavoriteProduct" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
+                            <a asp-controller="Products" asp-action="ConfirmToAddFavoriteProductConfirm" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
 
                             <a asp-action="Delete" asp-controller="ProductsInFridge" asp-route-id="@item.Id"><img src="~/Images/Icons/ProductDelete.png" alt="Удалить" role="button" /></a>
                         </td>
