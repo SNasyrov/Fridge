@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FridgeV2.Models.Product>
+﻿@model IEnumerable<FridgeV2.Models.FavoriteProduct>
 @{
     ViewBag.Title = "Любимые продукты";
 }
@@ -8,18 +8,15 @@
 <table class="table">
     <tr>
         <td>Название продукта:</td>
+
+        <td>Название производитель:</td>
     </tr>
-
-
-    @foreach (var item in Model)
+    @foreach(var item in Model)
     {
-        if (item.LikeTheProduct == true)
-        {
-            <tr>
-                <td>
-                    @item.Name
-                </td>
-            </tr>
-        }
+        <tr>
+            <td>@item.ProductName</td>
+
+            <td>@item.ManufacturerName</td>
+        </tr>
     }
 </table>

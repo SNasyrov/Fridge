@@ -14,7 +14,7 @@ namespace FridgeV2.Data
 
         public DbSet<ShoppingListItem> ShoppingListItems { get; set; }
 
-        //public DbSet<FavoriteProduct> FavoriteProducts { get; set; }
+        public DbSet<FavoriteProduct> FavoriteProducts { get; set; }
 
         public DbSet<Manufacturer> Manufacturers { get; set; }
 

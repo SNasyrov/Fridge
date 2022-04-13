@@ -155,7 +155,7 @@
                         <td>
                             <a asp-action="Edit" asp-controller="ProductsInFridge" asp-route-id="@item.Id"><img src="~/Images/Icons/EditProduct.png" alt="Уведомления" role="button" /></a>
 
-                            <a asp-controller="Products" asp-action="ConfirmToAddFavoriteProductConfirm" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
+                            <a asp-controller="FavoriteProducts" asp-action="ConfirmToAddFavoriteProductConfirm" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
 
                             <a asp-action="Create" asp-controller="ShoppingListItems" asp-route-productId="@item.ProductId" asp-route-returnUrl="@Url.Action("Index", "ProductsInFridge")"><img src="~/Images/Icons/AddShoppingList.png" alt="Добавить в список покупок" role="button" /></a>
 
@@ -167,7 +167,7 @@
                         <td>
                             <a asp-action="Edit" asp-controller="ProductsInFridge" asp-route-id="@item.Id"><img src="~/Images/Icons/EditProduct.png" alt="Изменить" role="button" /></a>
 
-                            <a asp-controller="Products" asp-action="ConfirmToAddFavoriteProductConfirm" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
+                            <a asp-controller="FavoriteProducts" asp-action="ConfirmToAddFavoriteProductConfirm" asp-route-id="@item.ProductId"><img src="~/Images/Icons/LoveProduct.png" alt="Добавить в любимые продукты" role="button" /></a>
 
                             <a asp-action="Delete" asp-controller="ProductsInFridge" asp-route-id="@item.Id"><img src="~/Images/Icons/ProductDelete.png" alt="Удалить" role="button" /></a>
                         </td>

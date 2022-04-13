@@ -102,41 +102,6 @@ namespace FridgeV2.Controllers
             return NotFound();
         }
 
-        /// <summary>
-        /// Доавить в любимый продукт
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> ConfirmToAddFavoriteProductConfirm(int? id)
-        {
-            if (id != null)
-            {
-                Product product = await db.Products.FirstOrDefaultAsync(p => p.Id == id);
-                if (product != null)
-                    TempData["Id"] = product.Id;
-                    return View(product);
-            }
-            return NotFound();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ConfirmToAddFavoriteProduct()
-        {
-            int id = Convert.ToInt32(TempData["Id"]);
-
-            if (id != 0)
-            {
-                Product Product = await db.Products.FirstOrDefaultAsync(p => p.Id == id);
-                if (Product != null)
-                {
-                    Product.LikeTheProduct = true;
-                    db.Products.Update(Product);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index", "FavoriteProducts");
-                }
-            }
-            return NotFound();
-        }
-
         [HttpGet]
         [ActionName("Delete")]
         [Authorize(Roles = "admin")]
