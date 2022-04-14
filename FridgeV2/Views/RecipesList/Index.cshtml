@@ -1,8 +1,10 @@
-﻿@{
+﻿@model IEnumerable<FridgeV2.Models.RecipeList>
+
+@{
     ViewBag.Title = "Рецепты";
 }
-<!DOCTYPE html>
-<html>
+
+
 <head>
     <meta charset="utf-8">
     <style>
@@ -18,24 +20,20 @@
             padding-right: 5px;
             background-color: #eee;
             box-shadow: 10px 4px 10px 3px #888;
-        }
+        } 
     </style>
 </head>
 <body>
     <h2>Список рецептов</h2>
     <a asp-action="Create" asp-controller="RecipesList">Добавить рецепт</a>
     <br />
-    <div id="sidebar">
-        <a href="#"><img src="~/Images/PictureOfTheRecipe/PotatoesWithCutlet.jpg" alt="Картошка с котлетой" height="150" width="190"></a>
-        <h6>Картошка с котлетой</h6>
-        <a href="#">Показать рецепт</a>
-    </div>
-    <div id="sidebar">Сайбар</div>
-    <div id="sidebar">Сайбар</div>
-    <div id="sidebar">Сайбар</div>
-    <div id="sidebar">Сайбар</div>
-    <div id="sidebar">Сайбар</div>
-    <div id="sidebar">Сайбар</div>
-    <div id="sidebar">Сайбар</div>
+
+    @foreach(var item in Model)
+    {
+        <div id="sidebar">
+            <h6>@item.Name</h6>
+            <a asp-action="Show" asp-controller="RecipesList" asp-route-id="@item.Id">Показать рецепт</a>
+        </div>   
+    }
+    
 </body>
-</html>

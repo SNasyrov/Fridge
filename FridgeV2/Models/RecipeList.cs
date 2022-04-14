@@ -31,6 +31,6 @@ namespace FridgeV2.Models
         /// Количество продукта
         /// </summary>
         [DisplayName("Количество продукта")]
-        public bool QuantityProduct { get; set; }
+        public int QuantityProduct { get; set; }
     }
 }
