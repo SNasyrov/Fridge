@@ -4,6 +4,7 @@ using FridgeV2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FridgeV2.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220414195552_Add_Class_CommentsUnderRecipes")]
+    partial class Add_Class_CommentsUnderRecipes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,22 +47,19 @@ namespace FridgeV2.Migrations
 
             modelBuilder.Entity("FridgeV2.Models.CommentsUnderRecipes", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("CommentsUnderRecipes");
                 });
@@ -187,9 +186,6 @@ namespace FridgeV2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CommentsIdId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -201,8 +197,6 @@ namespace FridgeV2.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CommentsIdId");
 
                     b.ToTable("RecipesLists");
                 });
@@ -508,15 +502,6 @@ namespace FridgeV2.Migrations
                     b.Navigation("Shop");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FridgeV2.Models.RecipeList", b =>
-                {
-                    b.HasOne("FridgeV2.Models.CommentsUnderRecipes", "CommentsId")
-                        .WithMany()
-                        .HasForeignKey("CommentsIdId");
-
-                    b.Navigation("CommentsId");
                 });
 
             modelBuilder.Entity("FridgeV2.Models.ShoppingListItem", b =>

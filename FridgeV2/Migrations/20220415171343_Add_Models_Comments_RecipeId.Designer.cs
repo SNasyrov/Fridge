@@ -4,6 +4,7 @@ using FridgeV2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FridgeV2.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220415171343_Add_Models_Comments_RecipeId")]
+    partial class Add_Models_Comments_RecipeId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,11 +47,11 @@ namespace FridgeV2.Migrations
 
             modelBuilder.Entity("FridgeV2.Models.CommentsUnderRecipes", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -60,7 +62,7 @@ namespace FridgeV2.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("CommentsUnderRecipes");
                 });
@@ -187,7 +189,7 @@ namespace FridgeV2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CommentsIdId")
+                    b.Property<int?>("CommentsIdid")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -202,7 +204,7 @@ namespace FridgeV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentsIdId");
+                    b.HasIndex("CommentsIdid");
 
                     b.ToTable("RecipesLists");
                 });
@@ -514,7 +516,7 @@ namespace FridgeV2.Migrations
                 {
                     b.HasOne("FridgeV2.Models.CommentsUnderRecipes", "CommentsId")
                         .WithMany()
-                        .HasForeignKey("CommentsIdId");
+                        .HasForeignKey("CommentsIdid");
 
                     b.Navigation("CommentsId");
                 });

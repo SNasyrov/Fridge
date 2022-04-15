@@ -32,5 +32,10 @@ namespace FridgeV2.Models
         /// </summary>
         [DisplayName("Количество продукта")]
         public int QuantityProduct { get; set; }
+
+        /// <summary>
+        /// Идентификатор комментария
+        /// </summary>
+        public CommentsUnderRecipes CommentsId { get; set; }
     }
 }
