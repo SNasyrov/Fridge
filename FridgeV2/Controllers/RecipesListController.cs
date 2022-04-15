@@ -49,17 +49,17 @@ namespace FridgeV2.Controllers
             {
                 TempData["recipeList"] = id;
                 RecipeList recipeList = await db.RecipesLists.FirstOrDefaultAsync(x => x.Id == id);
-                CommentsUnderRecipes commentsUnderRecipes = await db.CommentsUnderRecipes.FirstOrDefaultAsync(c => c.RecipeId == id);
+                List<CommentsUnderRecipes> comments = await db.CommentsUnderRecipes
+                                                             .Where(c => c.RecipeId == id)
+                                                             .ToListAsync();
                 if (recipeList != null)
                 {
                     
                     var modelRecipesAndComments = new CommentUnderRecipesAndRecipes();
                     List<RecipeList> recipe = new List<RecipeList>();
                     recipe.Add(recipeList);
-                    if (commentsUnderRecipes != null)
+                    if (comments.Count != 0)
                     {
-                        List<CommentsUnderRecipes> comments = new List<CommentsUnderRecipes>();
-                        comments.Add(commentsUnderRecipes);
                         modelRecipesAndComments.Comments = comments;
                     }
                     else
