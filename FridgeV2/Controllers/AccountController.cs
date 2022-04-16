@@ -96,11 +96,5 @@ namespace FridgeV2.Controllers
         {
             return View();
         }
-
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View("PersonalAccounts/Index");
-        }
     }
 }

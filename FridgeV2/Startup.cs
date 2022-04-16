@@ -1,5 +1,6 @@
 using FridgeV2.Data;
 using FridgeV2.Models;
+using FridgeV2.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,8 +28,17 @@ namespace FridgeV2
             // добавляем контекст MobileContext в качестве сервиса в приложение
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connection));
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(x =>
+            {
+                x.Password.RequiredLength = 4;
+                x.Password.RequireDigit = false;
+                x.Password.RequireUppercase = false;
+                x.Password.RequireNonAlphanumeric = false;
+            })
                 .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddScoped<NotificationService>();
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 

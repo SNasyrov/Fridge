@@ -29,46 +29,25 @@ namespace FridgeV2.Controllers
         {
             string currentUserId = UserManager.GetUserId(User);
 
-            var date = DateTime.Now;
-
-            List<string> ExpiredProduct = new List<string>();
-
-            List<ProductInFridge> products = await db.ProductsInFridge
-                                                             .Include(p => p.Product)
-                                                             .Where(p => p.UserId == currentUserId)
-                                                             .ToListAsync();
-            foreach (var p in products)
-            {
-                if (p.ExpirationDate.Subtract(date).TotalDays <= 0)
-                {
-                    ExpiredProduct.Add(p.Product.Name);
-                }
-                else
-                {
-                    ViewBag.ExpiredProduct = "Уведомлений нет";
-                }
-            }
-            ViewBag.ExpiredProduct = ExpiredProduct;
-
-            IQueryable<ProductInFridge> productInFridges = db.ProductsInFridge.Include(x => x.Product);
-
-            List<ProductInFridge> productsInFridge = await db.ProductsInFridge
-                                                             .Include(p => p.Product)
-                                                             .Where(p => p.UserId == currentUserId)
-                                                             .ToListAsync();
-
-            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
-            ViewData["AgeSort"] = sortOrder == SortState.AgeAsc ? SortState.AgeDesc : SortState.AgeAsc;
+            var productInFridges = db.ProductsInFridge
+                                     .AsNoTracking()
+                                     .Include(x => x.Product)
+                                     .Where(p => p.UserId == currentUserId);
 
             productInFridges = sortOrder switch
-            {
-                SortState.NameDesc => productInFridges.OrderByDescending(s => s.Product.Name),
-                SortState.AgeAsc => productInFridges.OrderBy(s => s.ExpirationDate),
-                SortState.AgeDesc => productInFridges.OrderByDescending(s => s.ExpirationDate),
-                _ => productInFridges.OrderBy(s => s.Product.Name),
-            };
+                               {
+                                   SortState.NameDesc => productInFridges.OrderByDescending(s => s.Product.Name),
+                                   SortState.AgeAsc => productInFridges.OrderBy(s => s.ExpirationDate),
+                                   SortState.AgeDesc => productInFridges.OrderByDescending(s => s.ExpirationDate),
+                                   _ => productInFridges.OrderBy(s => s.Product.Name),
+                               };
 
-            return View(await productInFridges.AsNoTracking().ToListAsync());
+            var products = await productInFridges.ToListAsync();
+
+            ViewBag.NameSort = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+            ViewBag.AgeSort = sortOrder == SortState.AgeAsc ? SortState.AgeDesc : SortState.AgeAsc;
+
+            return View(products);
         }
 
         [HttpGet]

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FridgeV2.Models
+﻿namespace FridgeV2.Models
 {
     public class CommentsUnderRecipes
     {
@@ -11,6 +9,5 @@ namespace FridgeV2.Models
         public string Comment { get; set; }
 
         public int RecipeId { get; set; }
-
     }
 }

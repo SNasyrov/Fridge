@@ -1,14 +1,16 @@
-﻿using FridgeV2.Data;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FridgeV2.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace FridgeV2.ViewModels
 {
-    public class CommentUnderRecipesAndRecipes 
+    public class CommentUnderRecipesAndRecipes
     {
-        public IEnumerable<CommentsUnderRecipes> Comments { get; set; }
-        public IEnumerable<RecipeList> Recipes { get; set; }
+        public RecipeList Recipe { get; set; }
+
+        [DisplayFormat(NullDisplayText = "Пока отзывов нет!")]
+        public List<CommentsUnderRecipes> Comments { get; set; }
+
+        public CommentsUnderRecipes NewComment { get; set; }
     }
 }
