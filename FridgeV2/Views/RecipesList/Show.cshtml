@@ -4,6 +4,18 @@
     ViewBag.Title = "Рецепт";
 }
 
+<head>
+    <style>
+        .reviews-box{
+            background-color: #f7f1e3;
+            width:250px;
+            height:60px;
+            box-shadow: 10px 10px 10px rgba(0,0,0,0.19);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
 <body>
     <div class="container">
         <div class="row">
@@ -37,17 +49,15 @@
                             {
                                 @foreach (var item in Model.Comments)
                                 {
-                                    <div>
-                                        @item.Username
-                                        <br/>
-                                        @item.Comment
+                                    <div class="reviews-box">
+                                        <h6>@item.Username</h6>
+                                        <p>@item.Comment</p>
                                     </div>
                                 }
                             }
                             else
                             {
                                 <p>Пока отзывов нет!</p>
-                                <p>Будьте первым!</p>
                             }
                         </div>
                         <div class="col">
