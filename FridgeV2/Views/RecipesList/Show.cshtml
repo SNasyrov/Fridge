@@ -1,84 +1,96 @@
-﻿@using FridgeV2.ViewModels
-
+﻿@model FridgeV2.ViewModels.CommentUnderRecipesAndRecipes
 @{
     ViewBag.Title = "Рецепт";
 }
 
-<head>
-    <style>
-        .reviews-box{
-            background-color: #f7f1e3;
-            width:250px;
-            height:60px;
-            box-shadow: 10px 10px 10px rgba(0,0,0,0.19);
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Recipe.Name): @Html.DisplayFor(m => m.Recipe.Name)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Recipe.Product): @Html.DisplayFor(m => m.Recipe.Product)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Recipe.QuantityProduct): @Html.DisplayFor(m => m.Recipe.QuantityProduct)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Launch demo modal
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <table>
-                    @foreach (var item in Model.Recipes)
-                    {
-                        <tr>
-                            <td>Название рецепта: @item.Name</td>
-                        </tr>
-                        <tr>
-                            <td>Список продуктов: @item.Product</td>
-                        </tr>
-                        <tr>
-                            <td>Кол-во продуктов: @item.QuantityProduct</td>
-                        </tr>
-                    }
-                </table>
-            </div>
+        <div class="col">
+            <h3>Как приготовить</h3>
+        </div>
 
-            <div class="col">
-                <h3>Как приготовить</h3>
-            </div>
-
-            <div class="col">
-                <h3>Отзывы</h3>
-                <div>
+        <div class="col">
+            <h3>Отзывы</h3>
+            <div>
+                <div class="row">
+                    <div class="col">
+                        @if (Model.Comments is {Count: > 0 })
+                        {
+                            @foreach (var item in Model.Comments)
+                            {
+                                <div class="reviews-box">
+                                    <h6>@Html.DisplayFor(_ => item.Username)</h6>
+                                    <p>@Html.DisplayFor(_ => item.Comment)</p>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Пока отзывов нет!</p>
+                        }
+                    </div>
+                    <div class="col">
+                    </div>
                     <div class="row">
                         <div class="col">
-                            @if (Model.Comments != null)
-                            {
-                                @foreach (var item in Model.Comments)
-                                {
-                                    <div class="reviews-box">
-                                        <h6>@item.Username</h6>
-                                        <p>@item.Comment</p>
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <p>Пока отзывов нет!</p>
-                            }
-                        </div>
-                        <div class="col">
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                
-                            </div>
+
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <h3>Оставить свой отзыв</h3>
-                <form asp-action="Show" asp-controller="RecipesList">
-                    <textarea name="comment" cols="40" rows="3"></textarea>
-                    <p>
-                        <input type="submit" value="Отправить">
-                        <input type="reset" value="Очистить">
-                    </p>
-                </form>
+            <h3>Оставить свой отзыв</h3>
+            <form asp-action="AddComment" asp-controller="RecipesList">
+                @Html.HiddenFor(m => m.NewComment.RecipeId)
+                <textarea asp-for="NewComment.Comment" cols="40" rows="3"></textarea>
+                <p>
+                    <input type="submit" value="Отправить">
+                    <input type="reset" value="Очистить">
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
-</body>
+</div>
