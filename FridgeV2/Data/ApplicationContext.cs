@@ -24,6 +24,8 @@ namespace FridgeV2.Data
 
         public DbSet<CommentsUnderRecipes> CommentsUnderRecipes { get; set; }
 
+        public DbSet<HowToCook> HowToCook { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {

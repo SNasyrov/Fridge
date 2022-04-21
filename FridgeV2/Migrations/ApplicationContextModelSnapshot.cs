@@ -87,6 +87,25 @@ namespace FridgeV2.Migrations
                     b.ToTable("FavoriteProducts");
                 });
 
+            modelBuilder.Entity("FridgeV2.Models.HowToCook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Recipe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HowToCook");
+                });
+
             modelBuilder.Entity("FridgeV2.Models.Manufacturer", b =>
                 {
                     b.Property<int>("Id")
@@ -187,9 +206,6 @@ namespace FridgeV2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CommentsIdId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -200,9 +216,12 @@ namespace FridgeV2.Migrations
                     b.Property<int>("QuantityProduct")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentsIdId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RecipesLists");
                 });
@@ -512,11 +531,11 @@ namespace FridgeV2.Migrations
 
             modelBuilder.Entity("FridgeV2.Models.RecipeList", b =>
                 {
-                    b.HasOne("FridgeV2.Models.CommentsUnderRecipes", "CommentsId")
+                    b.HasOne("FridgeV2.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("CommentsIdId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("CommentsId");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FridgeV2.Models.ShoppingListItem", b =>

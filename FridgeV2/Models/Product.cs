@@ -42,7 +42,5 @@
         /// </summary>
         public bool LikeTheProduct { get; set; }
 
-
-
     }
 }

@@ -18,10 +18,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            Launch demo modal
-                        </button>
+                        @if (Model.Recipe.UserId == ViewBag.UserId)
+                        {
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Добавить продукт
+                            </button>
+                        }
                     </td>
                 </tr>
             </table>
@@ -29,6 +32,21 @@
 
         <div class="col">
             <h3>Как приготовить</h3>
+            @if (Model.HowToCook != null)
+            {
+                <p>@Model.HowToCook.Recipe</p>
+            }
+            else
+            {
+                <p>Добавьте рецепт блюда!</p>
+                @if (Model.Recipe.UserId == ViewBag.UserId)
+                {
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#HowToCook">
+                        Добавить рецепт
+                    </button>
+                }
+            }
         </div>
 
         <div class="col">
@@ -36,7 +54,7 @@
             <div>
                 <div class="row">
                     <div class="col">
-                        @if (Model.Comments is {Count: > 0 })
+                        @if (Model.Comments is { Count: > 0 })
                         {
                             @foreach (var item in Model.Comments)
                             {
@@ -55,7 +73,6 @@
                     </div>
                     <div class="row">
                         <div class="col">
-
                         </div>
                     </div>
                 </div>
@@ -74,18 +91,42 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Recipe -->
+<div class="modal fade" id="HowToCook" tabindex="-1" aria-labelledby="howToCookModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="howToCookModalLabel">Рецепт блюда</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form asp-action="HowToCookAdd" asp-controller="RecipesList">
+                    @Html.HiddenFor(m => m.NewHowToCook.RecipeId)
+                    <textarea asp-for="NewHowToCook.Recipe" cols="40" rows="3"></textarea>
+                    <p>
+                        <input type="submit" value="Отправить">
+                        <input type="reset" value="Очистить">
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Product -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModal">Выберите нужные продукты</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Test</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

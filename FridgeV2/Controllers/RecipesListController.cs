@@ -34,6 +34,9 @@ namespace FridgeV2.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RecipeList recipeList)
         {
+            string currentUserId = _userManager.GetUserId(User);
+            recipeList.UserId = currentUserId;
+
             _db.RecipesLists.Add(recipeList);
             await _db.SaveChangesAsync();
             return Redirect("Index");
@@ -45,6 +48,9 @@ namespace FridgeV2.Controllers
             if (id == null)
                 return NotFound();
 
+            string currentUserId = _userManager.GetUserId(User);
+            ViewBag.UserId = currentUserId;
+
             var recipe = await _db.RecipesLists.FirstOrDefaultAsync(x => x.Id == id);
             if (recipe == null)
                 return NotFound();
@@ -53,12 +59,19 @@ namespace FridgeV2.Controllers
                                    .Where(c => c.RecipeId == id)
                                    .ToListAsync();
 
+            var howToCook = await _db.HowToCook.FirstOrDefaultAsync(x => x.RecipeId == id);
+
             var modelRecipesAndComments = new CommentUnderRecipesAndRecipes
             {
                 Recipe = recipe,
                 Comments = comments,
+                HowToCook = howToCook,
                 NewComment = new CommentsUnderRecipes
                 {
+                    RecipeId = recipe.Id
+                },
+                NewHowToCook = new HowToCook
+                { 
                     RecipeId = recipe.Id
                 }
             };
@@ -78,9 +91,13 @@ namespace FridgeV2.Controllers
             return RedirectToAction("Show", new { id = newComment.RecipeId});
         }
 
-        public IActionResult ThanksToAddComments()
+        [HttpPost]
+        public async Task<IActionResult> HowToCookAdd(HowToCook newHowToCook)
         {
-            return View();
+            await _db.HowToCook.AddAsync(newHowToCook);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Show", new { id = newHowToCook.RecipeId });
         }
     }
 }

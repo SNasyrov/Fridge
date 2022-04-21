@@ -34,8 +34,14 @@ namespace FridgeV2.Models
         public int QuantityProduct { get; set; }
 
         /// <summary>
-        /// Идентификатор комментария
+        /// Идентификатор пользователя
         /// </summary>
-        public CommentsUnderRecipes CommentsId { get; set; }
+        [DisplayName("Пользователь")]
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// Пользователь
+        /// </summary>
+        public User User { get; set; }
     }
 }

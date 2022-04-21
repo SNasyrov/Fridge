@@ -12,5 +12,9 @@ namespace FridgeV2.ViewModels
         public List<CommentsUnderRecipes> Comments { get; set; }
 
         public CommentsUnderRecipes NewComment { get; set; }
+
+        public HowToCook HowToCook { get; set; }
+
+        public HowToCook NewHowToCook { get; set; }
     }
 }
