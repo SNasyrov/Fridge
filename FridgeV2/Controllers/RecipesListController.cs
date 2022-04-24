@@ -3,7 +3,9 @@ using FridgeV2.Models;
 using FridgeV2.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,6 +53,9 @@ namespace FridgeV2.Controllers
             string currentUserId = _userManager.GetUserId(User);
             ViewBag.UserId = currentUserId;
 
+            List<Product> products = await _db.Products.Include(p => p.Manufacturer).ToListAsync();
+            ViewBag.Products = new SelectList(products, "Id", "Name");
+
             var recipe = await _db.RecipesLists.FirstOrDefaultAsync(x => x.Id == id);
             if (recipe == null)
                 return NotFound();
@@ -66,12 +71,17 @@ namespace FridgeV2.Controllers
                 Recipe = recipe,
                 Comments = comments,
                 HowToCook = howToCook,
+                Product = products,
                 NewComment = new CommentsUnderRecipes
                 {
                     RecipeId = recipe.Id
                 },
                 NewHowToCook = new HowToCook
-                { 
+                {
+                    RecipeId = recipe.Id
+                },
+                NewProductInTheRecipe = new ProductInTheRecipe
+                {
                     RecipeId = recipe.Id
                 }
             };
@@ -88,7 +98,7 @@ namespace FridgeV2.Controllers
             await _db.CommentsUnderRecipes.AddAsync(newComment);
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("Show", new { id = newComment.RecipeId});
+            return RedirectToAction("Show", new { id = newComment.RecipeId });
         }
 
         [HttpPost]
@@ -98,6 +108,15 @@ namespace FridgeV2.Controllers
             await _db.SaveChangesAsync();
 
             return RedirectToAction("Show", new { id = newHowToCook.RecipeId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductToRecipeAdd(ProductInTheRecipe newProductInTheRecipe, List<Product> productsId)
+        {
+            await _db.ProductInTheRecipes.AddAsync(newProductInTheRecipe);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Show", new { id = newProductInTheRecipe.RecipeId });
         }
     }
 }

@@ -16,5 +16,11 @@ namespace FridgeV2.ViewModels
         public HowToCook HowToCook { get; set; }
 
         public HowToCook NewHowToCook { get; set; }
+
+        public List<ProductInTheRecipe> ProductInTheRecipe { get; set; }
+
+        public ProductInTheRecipe NewProductInTheRecipe { get; set; }
+
+        public List<Product> Product { get; set; }
     }
 }
