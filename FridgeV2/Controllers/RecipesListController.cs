@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static FridgeV2.ViewModels.CommentUnderRecipesAndRecipes;
 
 namespace FridgeV2.Controllers
 {
@@ -53,12 +54,25 @@ namespace FridgeV2.Controllers
             string currentUserId = _userManager.GetUserId(User);
             ViewBag.UserId = currentUserId;
 
-            List<Product> products = await _db.Products.Include(p => p.Manufacturer).ToListAsync();
+            List<Product> products = await _db.Products.ToListAsync();
             ViewBag.Products = new SelectList(products, "Id", "Name");
 
             var recipe = await _db.RecipesLists.FirstOrDefaultAsync(x => x.Id == id);
             if (recipe == null)
                 return NotFound();
+
+            var filters = new List<Filter>();
+
+            foreach (var item in products)
+            {
+                var filter = new Filter();
+                filter.Id = item.Id;
+                filter.Name = item.Name;
+                filter.ProductId = item.Id;
+                filter.Selected = false;
+                filters.Add(filter);
+            }
+
 
             var comments = await _db.CommentsUnderRecipes
                                    .Where(c => c.RecipeId == id)
@@ -72,15 +86,12 @@ namespace FridgeV2.Controllers
                 Comments = comments,
                 HowToCook = howToCook,
                 Product = products,
+                Filters = filters,
                 NewComment = new CommentsUnderRecipes
                 {
                     RecipeId = recipe.Id
                 },
                 NewHowToCook = new HowToCook
-                {
-                    RecipeId = recipe.Id
-                },
-                NewProductInTheRecipe = new ProductInTheRecipe
                 {
                     RecipeId = recipe.Id
                 }
@@ -111,12 +122,20 @@ namespace FridgeV2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProductToRecipeAdd(ProductInTheRecipe newProductInTheRecipe, List<Product> productsId)
+        public async Task<IActionResult> ProductToRecipeAdd(List<Filter> filters)
         {
-            await _db.ProductInTheRecipes.AddAsync(newProductInTheRecipe);
+            var productInTheRecipe = new ProductInTheRecipe();
+            foreach (var item in filters)
+            {
+                if (item.Selected == true)
+                { 
+                    productInTheRecipe.ProductId = item.ProductId;
+                }
+            }
+            await _db.ProductInTheRecipes.AddAsync(productInTheRecipe);
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("Show", new { id = newProductInTheRecipe.RecipeId });
+            return View();
         }
     }
 }

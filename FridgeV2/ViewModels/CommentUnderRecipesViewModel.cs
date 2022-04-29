@@ -19,8 +19,18 @@ namespace FridgeV2.ViewModels
 
         public List<ProductInTheRecipe> ProductInTheRecipe { get; set; }
 
-        public ProductInTheRecipe NewProductInTheRecipe { get; set; }
-
         public List<Product> Product { get; set; }
+
+        public List<Filter> Filters { get; set; }
+
+    }
+
+    public class Filter
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public int ProductId { get; set; }
+        public bool Selected { get; set; }
     }
 }

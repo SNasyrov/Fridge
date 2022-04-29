@@ -120,28 +120,21 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModal">Рецепт блюда</h5>
+                <h5 class="modal-title" id="exampleModal">Выберите продукты нужные для приготовления блюда</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <label>Продукты:</label>
-                @foreach (var item in Model.Product)
-                {
-                    <form asp-action="ProductToRecipeAdd" asp-controller="RecipesList">
-                        @Html.HiddenFor(m => m.NewProductInTheRecipe.RecipeId)
-                        <br />
-                        <input type="checkbox" value="@item.Id" class="checkbox">
-                        <label asp-for="NewProductInTheRecipe.ProductId" for="item.Name">@item.Name</label>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                }
-                <div>
-                    <p id='valueList'></p>
-                </div>
+                <form asp-action="ProductToRecipeAdd" asp-controller="RecipesList">
+                    @foreach(var item in Model.Filters)
+                    {
+                        <input type="checkbox" asp-for="@item.Selected" />
+                        <label asp-for="@item.Selected">@item.Name</label>
+                    }
+                    <button type="submit" name="action">Filtrer</button>
+                </form>
             </div>
         </div>
     </div>
