@@ -1,4 +1,4 @@
-﻿@model FridgeV2.ViewModels.CommentUnderRecipesAndRecipes
+﻿@model FridgeV2.ViewModels.Recipes.CommentUnderRecipesAndRecipesViewModel
 @{
     ViewBag.Title = "Рецепт";
 }
@@ -14,14 +14,19 @@
                     <td>@Html.DisplayNameFor(m => m.Recipe.Product): @Html.DisplayFor(m => m.Recipe.Product)</td>
                 </tr>
                 <tr>
-                    <td>@Html.DisplayNameFor(m => m.Recipe.QuantityProduct): @Html.DisplayFor(m => m.Recipe.QuantityProduct)</td>
+                    <td>Количество продуктов: @ViewBag.CountProduct</td>
+                </tr>
+                <tr>
+                    <td>
+                        <partial name="_ShowProductPartial" model="Model.ShowProduct" />
+                    </td>
                 </tr>
                 <tr>
                     <td>
                         @if (Model.Recipe.UserId == ViewBag.UserId)
                         {
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ProductModal">
                                 Добавить продукт
                             </button>
                         }
@@ -115,29 +120,4 @@
     </div>
 </div>
 
-<!-- Modal Recipe -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModal">Выберите продукты нужные для приготовления блюда</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <label>Продукты:</label>
-                <form asp-action="ProductToRecipeAdd" asp-controller="RecipesList">
-                    @foreach(var item in Model.Filters)
-                    {
-                        <input type="checkbox" asp-for="@item.Selected" />
-                        <label asp-for="@item.Selected">@item.Name</label>
-                    }
-                    <button type="submit" name="action">Filtrer</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="~/js/ProductInTheRecipe.js"></script>
+<partial name="_EditProductsInRecipePartial" model="Model.EditProductsInRecipe" />

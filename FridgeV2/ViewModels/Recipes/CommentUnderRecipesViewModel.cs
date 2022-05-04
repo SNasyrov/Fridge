@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using FridgeV2.Models;
 
-namespace FridgeV2.ViewModels
+namespace FridgeV2.ViewModels.Recipes
 {
-    public class CommentUnderRecipesAndRecipes
+    public class CommentUnderRecipesAndRecipesViewModel
     {
         public RecipeList Recipe { get; set; }
 
@@ -19,18 +19,8 @@ namespace FridgeV2.ViewModels
 
         public List<ProductInTheRecipe> ProductInTheRecipe { get; set; }
 
-        public List<Product> Product { get; set; }
+        public EditProductsInRecipeViewModel EditProductsInRecipe { get; set; }
 
-        public List<Filter> Filters { get; set; }
-
-    }
-
-    public class Filter
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public int ProductId { get; set; }
-        public bool Selected { get; set; }
+        public ShowProductViewModel ShowProduct { get; set; }
     }
 }

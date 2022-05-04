@@ -1,0 +1,84 @@
+﻿@model IEnumerable<FridgeV2.Models.Shop>
+@{
+    ViewBag.Title = "Магазины";
+}
+<a asp-area="Admin" asp-controller="Shops" asp-action="Create">Добавить магазин</a>
+
+<details>
+    <summary>
+        Подтвержденные магазины
+    </summary>
+    <table class="table">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Name):</td>
+
+            <td>Статус подтверждения:</td>
+
+            <td></td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            @if (item.IsConfirmed == true)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.Name)</td>
+
+                    <td>Подтвержден</td>
+
+                    <td>
+                        <form asp-action="Delete" asp-controller="Shops" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-outline-danger">
+                                Отказать
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</details>
+
+<details>
+    <summary>
+        Магазины которые еще не прошли проверку
+    </summary>
+    <table class="table">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Name):</td>
+
+            <td>Статус подтверждения:</td>
+
+            <td></td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            @if (item.IsConfirmed == false)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.Name)</td>
+
+                    <td>Подтвержден</td>
+
+                    <td>
+                        <form asp-area="Admin" asp-controller="Shops" asp-action="Confirm" asp-route-id="@item.Id">
+                            <button type="submit" class="btn btn-outline-success">
+                                Утвердить
+                            </button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <form asp-action="Delete" asp-controller="Shops" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-outline-danger">
+                                Отказать
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</details>
+
+
+

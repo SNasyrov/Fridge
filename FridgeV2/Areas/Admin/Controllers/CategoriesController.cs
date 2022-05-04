@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FridgeV2.Controllers
+namespace FridgeV2.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     [Authorize(Roles = "admin")]
     public class CategoriesController : Controller
     {
-
         private ApplicationContext db;
 
         public CategoriesController(ApplicationContext context)
@@ -54,7 +54,6 @@ namespace FridgeV2.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id != null)

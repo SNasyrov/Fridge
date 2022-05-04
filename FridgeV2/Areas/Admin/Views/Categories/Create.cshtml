@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Добавить категорию";
 }
-<form asp-action="Create" asp-controller="Categories">
+<form asp-area="Admin"  asp-action="Create" asp-controller="Categories">
     <div class="form-group">
         <label asp-for="Name" class="control-label">Название продукта:</label>
         <input type="text" asp-for="Name" class="form-control" />

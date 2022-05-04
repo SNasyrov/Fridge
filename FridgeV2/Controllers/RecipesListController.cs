@@ -1,14 +1,12 @@
-﻿using FridgeV2.Data;
-using FridgeV2.Models;
-using FridgeV2.ViewModels;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static FridgeV2.ViewModels.CommentUnderRecipesAndRecipes;
+using FridgeV2.Data;
+using FridgeV2.Models;
+using FridgeV2.ViewModels.Recipes;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FridgeV2.Controllers
 {
@@ -37,7 +35,7 @@ namespace FridgeV2.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RecipeList recipeList)
         {
-            string currentUserId = _userManager.GetUserId(User);
+            var currentUserId = _userManager.GetUserId(User);
             recipeList.UserId = currentUserId;
 
             _db.RecipesLists.Add(recipeList);
@@ -51,42 +49,45 @@ namespace FridgeV2.Controllers
             if (id == null)
                 return NotFound();
 
-            string currentUserId = _userManager.GetUserId(User);
+            var currentUserId = _userManager.GetUserId(User);
             ViewBag.UserId = currentUserId;
-
-            List<Product> products = await _db.Products.ToListAsync();
-            ViewBag.Products = new SelectList(products, "Id", "Name");
 
             var recipe = await _db.RecipesLists.FirstOrDefaultAsync(x => x.Id == id);
             if (recipe == null)
                 return NotFound();
 
-            var filters = new List<Filter>();
-
-            foreach (var item in products)
-            {
-                var filter = new Filter();
-                filter.Id = item.Id;
-                filter.Name = item.Name;
-                filter.ProductId = item.Id;
-                filter.Selected = false;
-                filters.Add(filter);
-            }
-
-
             var comments = await _db.CommentsUnderRecipes
-                                   .Where(c => c.RecipeId == id)
-                                   .ToListAsync();
+                                    .Where(c => c.RecipeId == id)
+                                    .ToListAsync();
+
+            var productInTheRecipe = await _db.ProductInTheRecipes
+                                    .Where(c => c.RecipeId == id)
+                                    .ToListAsync();
+            ViewBag.CountProduct = productInTheRecipe.Count;
 
             var howToCook = await _db.HowToCook.FirstOrDefaultAsync(x => x.RecipeId == id);
 
-            var modelRecipesAndComments = new CommentUnderRecipesAndRecipes
+            var productsCheckboxes = await _db.Products
+                                              .Select(p => new EditProductsInRecipeViewModel.RecipeCheckBoxViewModel
+                                               {
+                                                   Name = p.Name,
+                                                   ProductId = p.Id,
+                                                   Selected = false
+                                               })
+                                              .ToListAsync();
+
+            var showProduct = await _db.Products
+                                               .Select(p => new ShowProductViewModel.Product
+                                               {
+                                                   Name = p.Name
+                                               })
+                                               .ToListAsync();
+
+            var modelRecipesAndComments = new CommentUnderRecipesAndRecipesViewModel
             {
                 Recipe = recipe,
                 Comments = comments,
                 HowToCook = howToCook,
-                Product = products,
-                Filters = filters,
                 NewComment = new CommentsUnderRecipes
                 {
                     RecipeId = recipe.Id
@@ -94,6 +95,15 @@ namespace FridgeV2.Controllers
                 NewHowToCook = new HowToCook
                 {
                     RecipeId = recipe.Id
+                },
+                EditProductsInRecipe = new EditProductsInRecipeViewModel
+                {
+                    RecipeId = recipe.Id,
+                    Checkboxes = productsCheckboxes
+                },
+                ShowProduct =  new ShowProductViewModel
+                {
+                    Products = showProduct
                 }
             };
 
@@ -112,7 +122,7 @@ namespace FridgeV2.Controllers
             return RedirectToAction("Show", new { id = newComment.RecipeId });
         }
 
-        [HttpPost]
+        [HttpPost] 
         public async Task<IActionResult> HowToCookAdd(HowToCook newHowToCook)
         {
             await _db.HowToCook.AddAsync(newHowToCook);
@@ -122,19 +132,37 @@ namespace FridgeV2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProductToRecipeAdd(List<Filter> filters)
+        public async Task<IActionResult> ProductToRecipeAdd(EditProductsInRecipeViewModel model)
         {
-            var productInTheRecipe = new ProductInTheRecipe();
-            foreach (var item in filters)
+            var currentUserId = _userManager.GetUserId(User);
+
+            var recipe = await _db.RecipesLists.SingleOrDefaultAsync(x => x.Id == model.RecipeId
+                                                                   && x.UserId == currentUserId);
+
+            if (recipe == null)
+                return NotFound();
+
+            var productInTheRecipe = new List<ProductInTheRecipe>();
+
+            foreach (var item in model.ProductsIds)
             {
-                if (item.Selected == true)
-                { 
-                    productInTheRecipe.ProductId = item.ProductId;
-                }
+                productInTheRecipe.Add(new ProductInTheRecipe
+                {
+                    ProductId = item,
+                    RecipeId = model.RecipeId
+                });
             }
-            await _db.ProductInTheRecipes.AddAsync(productInTheRecipe);
+
+
+            await _db.ProductInTheRecipes.AddRangeAsync(productInTheRecipe);
             await _db.SaveChangesAsync();
 
+            return RedirectToAction("Show", new { id = model.RecipeId });
+        }
+
+        [HttpPost]
+        public IActionResult AddProductToShoppingList()
+        {
             return View();
         }
     }
