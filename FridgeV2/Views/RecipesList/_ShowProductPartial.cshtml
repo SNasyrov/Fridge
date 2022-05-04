@@ -1,0 +1,12 @@
+﻿@model FridgeV2.ViewModels.Recipes.ShowProductViewModel
+
+<div>
+    <details>
+        <summary>Показать продукты в рецепте</summary>
+        @foreach (var item in Model.Products)
+       {
+           <p>@Html.DisplayFor(_ => item.Name)</p>
+       }
+
+    </details>
+</div>

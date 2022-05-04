@@ -20,5 +20,7 @@ namespace FridgeV2.ViewModels.Recipes
         public List<ProductInTheRecipe> ProductInTheRecipe { get; set; }
 
         public EditProductsInRecipeViewModel EditProductsInRecipe { get; set; }
+
+        public ShowProductViewModel ShowProduct { get; set; }
     }
 }

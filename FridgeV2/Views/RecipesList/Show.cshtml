@@ -14,14 +14,19 @@
                     <td>@Html.DisplayNameFor(m => m.Recipe.Product): @Html.DisplayFor(m => m.Recipe.Product)</td>
                 </tr>
                 <tr>
-                    <td>@Html.DisplayNameFor(m => m.Recipe.QuantityProduct): @Html.DisplayFor(m => m.Recipe.QuantityProduct)</td>
+                    <td>Количество продуктов: @ViewBag.CountProduct</td>
+                </tr>
+                <tr>
+                    <td>
+                        <partial name="_ShowProductPartial" model="Model.ShowProduct" />
+                    </td>
                 </tr>
                 <tr>
                     <td>
                         @if (Model.Recipe.UserId == ViewBag.UserId)
                         {
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ProductModal">
                                 Добавить продукт
                             </button>
                         }
@@ -114,3 +119,5 @@
         </div>
     </div>
 </div>
+
+<partial name="_EditProductsInRecipePartial" model="Model.EditProductsInRecipe" />
