@@ -1,0 +1,93 @@
+﻿@model IEnumerable<FridgeV2.Models.Product>
+@{
+    ViewBag.Title = "Продукты";
+}
+<a asp-action="Create">Добавить продукт</a>
+
+<details>
+    <summary>
+        Подтвержденные продукты
+    </summary>
+    <table class="table">
+        <tr>
+            <td>Название продукта:</td>
+
+            <td>Статус подтверждения:</td>
+
+            <td>Производитель: </td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            @if (item.IsConfirmed == true)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.Name)</td>
+
+                    <td>Подтвержден</td>
+
+                    <td>@Html.DisplayFor(model => item.Manufacturer.Name)</td>
+
+                    <td>
+                        <a asp-area="Admin" asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id" class="btn btn-outline-info">Редактировать</a>
+                    </td>
+
+                    <td>
+                        <form asp-action="Delete" asp-controller="Products" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-outline-danger">
+                                Отказать
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</details>
+
+<details>
+    <summary>
+        Продукты которые еще не прошли проверку
+    </summary>
+    <table class="table">
+        <tr>
+            <td>Название продукта:</td>
+
+            <td>Статус подтверждения:</td>
+
+            <td>Производитель: </td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            @if (item.IsConfirmed == false)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.Name)</td>
+
+                    <td>Подтвержден</td>
+
+                    <td>@Html.DisplayFor(model => item.Manufacturer.Name)</td>
+
+                    <td>
+                        <a asp-area="Admin" asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id" class="btn btn-outline-info">Редактировать</a>
+                    </td>
+
+                    <td>
+                        <form asp-action="Confirm" asp-controller="Products" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-outline-success">
+                                Утвердить
+                            </button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <form asp-action="Delete" asp-controller="Products" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-outline-danger">
+                                Отказать
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</details>

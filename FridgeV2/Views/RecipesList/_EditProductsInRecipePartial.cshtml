@@ -1,0 +1,29 @@
+﻿@model FridgeV2.ViewModels.Recipes.EditProductsInRecipeViewModel
+
+<!-- Modal Recipe -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Выберите продукты нужные для приготовления блюда</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label asp-for="Checkboxes"></label>
+                <form asp-controller="RecipesList" asp-action="ProductToRecipeAdd">
+                    @Html.HiddenFor(m => m.RecipeId)
+                    @foreach (var item in Model.Checkboxes)
+                    {
+                        <label>
+                            <input type="checkbox" name="@(nameof(Model.ProductsIds))[]" value="@item.ProductId" @*@(item.Selected ? "checked=\"checked\"" : "")*@>
+                            @Html.DisplayFor(_ => item.Name)
+                        </label>
+                    }
+                    <button type="submit">Подтвердить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
