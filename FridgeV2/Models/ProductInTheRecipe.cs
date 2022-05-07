@@ -1,7 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Модель продукта в рецепте
+    /// </summary>
     public class ProductInTheRecipe
     {
         /// <summary>

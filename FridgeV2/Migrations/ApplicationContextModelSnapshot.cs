@@ -87,6 +87,32 @@ namespace FridgeV2.Migrations
                     b.ToTable("FavoriteProducts");
                 });
 
+            modelBuilder.Entity("FridgeV2.Models.GeneralFridge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("FridgeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductInFridgeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductInFridgeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GeneralFridges");
+                });
+
             modelBuilder.Entity("FridgeV2.Models.HowToCook", b =>
                 {
                     b.Property<int>("Id")
@@ -143,9 +169,6 @@ namespace FridgeV2.Migrations
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("LikeTheProduct")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ManufacturerId")
                         .HasColumnType("int");
 
@@ -177,9 +200,6 @@ namespace FridgeV2.Migrations
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("SaveToList")
-                        .HasColumnType("bit");
 
                     b.Property<int>("ShopId")
                         .HasColumnType("int");
@@ -233,9 +253,6 @@ namespace FridgeV2.Migrations
 
                     b.Property<string>("Product")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuantityProduct")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -504,6 +521,21 @@ namespace FridgeV2.Migrations
                         .HasForeignKey("ParentСategoryId");
 
                     b.Navigation("ParentСategory");
+                });
+
+            modelBuilder.Entity("FridgeV2.Models.GeneralFridge", b =>
+                {
+                    b.HasOne("FridgeV2.Models.ProductInFridge", "ProductInFridge")
+                        .WithMany()
+                        .HasForeignKey("ProductInFridgeId");
+
+                    b.HasOne("FridgeV2.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ProductInFridge");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FridgeV2.Models.Product", b =>

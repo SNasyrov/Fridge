@@ -1,31 +1,26 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace FridgeV2.Models
 {
     /// <summary>
-    /// Модель списка рецептов
+    /// Модель общего холодильника
     /// </summary>
-    public class RecipeList
+    public class GeneralFridge
     {
         /// <summary>
-        /// Идентификатор рецепта
+        /// Идентификатор общего хдильника
         /// </summary>
-        [DisplayName("Идентификатор")]
         public int Id { get; set; }
 
         /// <summary>
-        /// Название рецепта
+        /// Идентификатор холодильника
         /// </summary>
-        [DisplayName("Название рецепта")]
-        [Required]
-        public string Name { get; set; }
+        public int FridgeId { get; set; }
 
         /// <summary>
-        /// Название продукта
+        /// Холодильник
         /// </summary>
-        [DisplayName("Название продукта")]
-        public string Product { get; set; }
+        public ProductInFridge ProductInFridge { get; set; }
 
         /// <summary>
         /// Идентификатор пользователя

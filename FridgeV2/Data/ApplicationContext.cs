@@ -28,6 +28,8 @@ namespace FridgeV2.Data
 
         public DbSet<ProductInTheRecipe> ProductInTheRecipes { get; set; }
 
+        public DbSet<GeneralFridge> GeneralFridges  { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {

@@ -2,6 +2,9 @@
 
 namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Модель производитель
+    /// </summary>
     public class Manufacturer
     {
         /// <summary>
