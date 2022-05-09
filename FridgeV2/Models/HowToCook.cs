@@ -1,5 +1,8 @@
 ﻿namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Модель приготовления рецепта
+    /// </summary>
     public class HowToCook
     {
         /// <summary>

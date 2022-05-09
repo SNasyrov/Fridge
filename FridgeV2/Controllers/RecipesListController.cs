@@ -6,6 +6,7 @@ using FridgeV2.Models;
 using FridgeV2.ViewModels.Recipes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace FridgeV2.Controllers
@@ -62,8 +63,16 @@ namespace FridgeV2.Controllers
 
             var productInTheRecipe = await _db.ProductInTheRecipes
                                     .Where(c => c.RecipeId == id)
+                                    .Select(c => new ProductViewModel 
+                                    { 
+                                        Name = c.Product.Name,
+                                        Amount = c.Amount,
+                                        Measure = c.Mesure
+                                    })
                                     .ToListAsync();
             ViewBag.CountProduct = productInTheRecipe.Count;
+
+            var productList = new List<Product>();
 
             var howToCook = await _db.HowToCook.FirstOrDefaultAsync(x => x.RecipeId == id);
 
@@ -76,18 +85,12 @@ namespace FridgeV2.Controllers
                                                })
                                               .ToListAsync();
 
-            var showProduct = await _db.Products
-                                               .Select(p => new ShowProductViewModel.Product
-                                               {
-                                                   Name = p.Name
-                                               })
-                                               .ToListAsync();
-
             var modelRecipesAndComments = new CommentUnderRecipesAndRecipesViewModel
             {
                 Recipe = recipe,
                 Comments = comments,
                 HowToCook = howToCook,
+                Products = productInTheRecipe,
                 NewComment = new CommentsUnderRecipes
                 {
                     RecipeId = recipe.Id
@@ -100,10 +103,6 @@ namespace FridgeV2.Controllers
                 {
                     RecipeId = recipe.Id,
                     Checkboxes = productsCheckboxes
-                },
-                ShowProduct =  new ShowProductViewModel
-                {
-                    Products = showProduct
                 }
             };
 
@@ -146,10 +145,15 @@ namespace FridgeV2.Controllers
 
             foreach (var item in model.ProductsIds)
             {
+                var product = await _db.Products.SingleOrDefaultAsync(x => x.Id == item);
+
                 productInTheRecipe.Add(new ProductInTheRecipe
                 {
                     ProductId = item,
-                    RecipeId = model.RecipeId
+                    RecipeId = model.RecipeId,
+                    Product = product,
+                    Mesure = model.Mesure,
+                    Amount = model.Amount
                 });
             }
 

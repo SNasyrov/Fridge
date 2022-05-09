@@ -1,5 +1,8 @@
 ﻿namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Модель любимый продукт
+    /// </summary>
     public class FavoriteProduct
     {
         /// <summary>

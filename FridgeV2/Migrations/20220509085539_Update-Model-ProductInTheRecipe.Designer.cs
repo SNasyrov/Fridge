@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FridgeV2.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220414110112_Alteration_RecipesList_QuantityProduct_int")]
-    partial class Alteration_RecipesList_QuantityProduct_int
+    [Migration("20220509085539_Update-Model-ProductInTheRecipe")]
+    partial class UpdateModelProductInTheRecipe
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,28 @@ namespace FridgeV2.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("FridgeV2.Models.CommentsUnderRecipes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CommentsUnderRecipes");
+                });
+
             modelBuilder.Entity("FridgeV2.Models.FavoriteProduct", b =>
                 {
                     b.Property<int>("Id")
@@ -65,6 +87,51 @@ namespace FridgeV2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FavoriteProducts");
+                });
+
+            modelBuilder.Entity("FridgeV2.Models.GeneralFridge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("FridgeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductInFridgeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductInFridgeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GeneralFridges");
+                });
+
+            modelBuilder.Entity("FridgeV2.Models.HowToCook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Recipe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HowToCook");
                 });
 
             modelBuilder.Entity("FridgeV2.Models.Manufacturer", b =>
@@ -104,9 +171,6 @@ namespace FridgeV2.Migrations
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("LikeTheProduct")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ManufacturerId")
                         .HasColumnType("int");
 
@@ -139,9 +203,6 @@ namespace FridgeV2.Migrations
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("SaveToList")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ShopId")
                         .HasColumnType("int");
 
@@ -159,6 +220,33 @@ namespace FridgeV2.Migrations
                     b.ToTable("ProductsInFridge");
                 });
 
+            modelBuilder.Entity("FridgeV2.Models.ProductInTheRecipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Amount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mesure")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductInTheRecipes");
+                });
+
             modelBuilder.Entity("FridgeV2.Models.RecipeList", b =>
                 {
                     b.Property<int>("Id")
@@ -174,10 +262,12 @@ namespace FridgeV2.Migrations
                     b.Property<string>("Product")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuantityProduct")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("RecipesLists");
                 });
@@ -441,6 +531,21 @@ namespace FridgeV2.Migrations
                     b.Navigation("ParentСategory");
                 });
 
+            modelBuilder.Entity("FridgeV2.Models.GeneralFridge", b =>
+                {
+                    b.HasOne("FridgeV2.Models.ProductInFridge", "ProductInFridge")
+                        .WithMany()
+                        .HasForeignKey("ProductInFridgeId");
+
+                    b.HasOne("FridgeV2.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ProductInFridge");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FridgeV2.Models.Product", b =>
                 {
                     b.HasOne("FridgeV2.Models.Category", "Category")
@@ -481,6 +586,26 @@ namespace FridgeV2.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Shop");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FridgeV2.Models.ProductInTheRecipe", b =>
+                {
+                    b.HasOne("FridgeV2.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FridgeV2.Models.RecipeList", b =>
+                {
+                    b.HasOne("FridgeV2.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

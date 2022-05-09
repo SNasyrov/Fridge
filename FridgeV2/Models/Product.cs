@@ -1,5 +1,8 @@
 ﻿namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Модель продукта
+    /// </summary>
     public class Product
     {
         /// <summary>
@@ -36,11 +39,6 @@
         /// Проверка
         /// </summary>
         public bool IsConfirmed { get; set; }
-
-        /// <summary>
-        /// Продукт нравится
-        /// </summary>
-        public bool LikeTheProduct { get; set; }
 
     }
 }

@@ -8,19 +8,34 @@ namespace FridgeV2.ViewModels.Recipes
     {
         public RecipeList Recipe { get; set; }
 
+        /// <summary>
+        /// Список отзывов
+        /// </summary>
         [DisplayFormat(NullDisplayText = "Пока отзывов нет!")]
         public List<CommentsUnderRecipes> Comments { get; set; }
 
+        /// <summary>
+        /// Новый отзыв
+        /// </summary>
         public CommentsUnderRecipes NewComment { get; set; }
 
+        /// <summary>
+        /// Как приготовить рецепт
+        /// </summary>
         public HowToCook HowToCook { get; set; }
 
+        /// <summary>
+        /// Добавление инструкции готовки
+        /// </summary>
         public HowToCook NewHowToCook { get; set; }
 
+        /// <summary>
+        /// Список продуктов в рецепте
+        /// </summary>
         public List<ProductInTheRecipe> ProductInTheRecipe { get; set; }
 
         public EditProductsInRecipeViewModel EditProductsInRecipe { get; set; }
 
-        public ShowProductViewModel ShowProduct { get; set; }
+        public List<ProductViewModel> Products { get; set; }
     }
 }

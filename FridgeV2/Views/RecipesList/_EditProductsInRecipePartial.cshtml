@@ -20,6 +20,15 @@
                             <input type="checkbox" name="@(nameof(Model.ProductsIds))[]" value="@item.ProductId" @*@(item.Selected ? "checked=\"checked\"" : "")*@>
                             @Html.DisplayFor(_ => item.Name)
                         </label>
+
+                        <div class="form-group">
+                            <label asp-for="Amount" class="control-label">Amount:</label>
+                            <input type="text" asp-for="Amount" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Mesure" class="control-label">Mesure:</label>
+                            <input type="text" asp-for="Mesure" class="form-control" />
+                        </div>
                     }
                     <button type="submit">Подтвердить</button>
                 </form>

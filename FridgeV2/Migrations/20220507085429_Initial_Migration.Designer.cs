@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FridgeV2.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220415170919_Add_Models_RecipeList_CommentsId")]
-    partial class Add_Models_RecipeList_CommentsId
+    [Migration("20220507085429_Initial_Migration")]
+    partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,19 +47,22 @@ namespace FridgeV2.Migrations
 
             modelBuilder.Entity("FridgeV2.Models.CommentsUnderRecipes", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("CommentsUnderRecipes");
                 });
@@ -84,6 +87,25 @@ namespace FridgeV2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FavoriteProducts");
+                });
+
+            modelBuilder.Entity("FridgeV2.Models.HowToCook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Recipe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HowToCook");
                 });
 
             modelBuilder.Entity("FridgeV2.Models.Manufacturer", b =>
@@ -123,9 +145,6 @@ namespace FridgeV2.Migrations
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("LikeTheProduct")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ManufacturerId")
                         .HasColumnType("int");
 
@@ -158,9 +177,6 @@ namespace FridgeV2.Migrations
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("SaveToList")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ShopId")
                         .HasColumnType("int");
 
@@ -178,6 +194,27 @@ namespace FridgeV2.Migrations
                     b.ToTable("ProductsInFridge");
                 });
 
+            modelBuilder.Entity("FridgeV2.Models.ProductInTheRecipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductInTheRecipes");
+                });
+
             modelBuilder.Entity("FridgeV2.Models.RecipeList", b =>
                 {
                     b.Property<int>("Id")
@@ -186,9 +223,6 @@ namespace FridgeV2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CommentsIdid")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -196,12 +230,12 @@ namespace FridgeV2.Migrations
                     b.Property<string>("Product")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuantityProduct")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentsIdid");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RecipesLists");
                 });
@@ -509,13 +543,24 @@ namespace FridgeV2.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FridgeV2.Models.ProductInTheRecipe", b =>
+                {
+                    b.HasOne("FridgeV2.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("FridgeV2.Models.RecipeList", b =>
                 {
-                    b.HasOne("FridgeV2.Models.CommentsUnderRecipes", "CommentsId")
+                    b.HasOne("FridgeV2.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("CommentsIdid");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("CommentsId");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FridgeV2.Models.ShoppingListItem", b =>

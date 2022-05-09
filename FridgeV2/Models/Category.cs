@@ -1,5 +1,8 @@
 ﻿namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Модель категорий
+    /// </summary>
     public class Category
     {
         /// <summary>

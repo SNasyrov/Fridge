@@ -3,6 +3,9 @@ using System.ComponentModel;
 
 namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Модель холодильника
+    /// </summary>
     public class ProductInFridge
 
     {
@@ -53,10 +56,5 @@ namespace FridgeV2.Models
         /// Магазин
         /// </summary>
         public Shop Shop { get; set; }
-
-        /// <summary>
-        /// Сохранить в список покупок
-        /// </summary>
-        public bool SaveToList { get; set; }
     }
 }

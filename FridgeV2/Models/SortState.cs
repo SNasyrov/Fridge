@@ -1,5 +1,8 @@
 ﻿namespace FridgeV2.Models
 {
+    /// <summary>
+    /// Виды сортировки
+    /// </summary>
     public enum SortState
     {
         NameAsc,    // по имени по возрастанию

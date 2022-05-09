@@ -10,16 +10,22 @@
                 <tr>
                     <td>@Html.DisplayNameFor(m => m.Recipe.Name): @Html.DisplayFor(m => m.Recipe.Name)</td>
                 </tr>
-                <tr>
-                    <td>@Html.DisplayNameFor(m => m.Recipe.Product): @Html.DisplayFor(m => m.Recipe.Product)</td>
-                </tr>
+
                 <tr>
                     <td>Количество продуктов: @ViewBag.CountProduct</td>
                 </tr>
                 <tr>
-                    <td>
-                        <partial name="_ShowProductPartial" model="Model.ShowProduct" />
-                    </td>
+                    @foreach(var item in Model.Products)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(m => item.Name)</td>
+                        </tr>
+
+                        <tr>
+                            <td>@Html.DisplayFor(m => item.Amount)</td>
+                            <td>@Html.DisplayFor(m => item.Measure)</td>
+                        </tr>
+                    }
                 </tr>
                 <tr>
                     <td>
